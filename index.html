@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script defer src="main.js"></script>
+</head>
+
+<body>
+
+
+    <div class="">
+        <label for="timeSetByUser">
+            <span>
+                <h2>Создать таймер</h2>
+            </span>
+        </label>
+
+        <input type="range" id="timeSetByUser" value="10" name="focus" min="0" max="90" step="1"
+            oninput="myOutput.value = timeSetByUser.value">
+
+        <output name="focus" id="myOutput">0</output> минут
+    </div>
+
+    <button id="startTaimer">Start</button>
+
+
+    <div id="taimers">
+   
+    </div>
+</body>
+
+
+
+</html>
