@@ -1,7 +1,11 @@
-Timer.prototype = {
+class Timer {
+  constructor() {
+    this.id = new Date().getTime();
+  }
+
   createTimer() {
     return `<span id="${this.id}">00:00</span>`;
-  },
+  }
 
   setTime(hours = 0, minutes = 0, seconds = 0) {
     const timerValue = document.getElementById(this.id);
@@ -36,7 +40,7 @@ Timer.prototype = {
     timerValue.innerText = textValue;
 
     return (this.time = time);
-  },
+  }
 
   startTimer() {
     let intervalId;
@@ -66,23 +70,19 @@ Timer.prototype = {
     this.stopTimer();
     intervalId = setInterval(countDown, 1000);
     this.intervalId = intervalId;
-  },
+  }
 
   stopTimer() {
     clearInterval(this.intervalId);
     this.intervalId = undefined;
-  },
+  }
 
   restartTimer() {
     this.stopTimer();
     this.setTime(...Object.values(this.timerDuration));
-  },
+  }
 
   toString() {
     return this.createTimer();
-  },
-};
-
-function Timer() {
-  this.id = new Date().getTime();
+  }
 }
