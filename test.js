@@ -11,8 +11,6 @@ function watchInputValue(id, object, key) {
   input.addEventListener("input", () => {
     object[key] = input.value;
   });
-
-  input = null;
 }
 
 //--------------------------------------
@@ -29,7 +27,6 @@ class linkInputInObject {
       throw new Error("Элемент не найден");
     }
     if (input.nodeName !== "INPUT") {
-      input = undefined;
       throw new Error("Элемент не input");
     }
 
@@ -53,8 +50,6 @@ class linkInputInObject {
         });
 
         return;
-      } else {
-        HTMLElement = null;
       }
 
       throw new Error(`${linkElement} не  Object Key и не DOM element`);

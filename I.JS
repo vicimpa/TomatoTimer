@@ -42,9 +42,9 @@ class linkInputInObject {
 
 class TomatoTimer extends Timer {
   #defaultSettings = {
-    workTime: 25,
-    longBreak: 11,
-    shortBreak: 0,
+    workTime: 1,
+    longBreak: 2,
+    shortBreak: 3,
     rounds: 0,
   };
 
@@ -90,18 +90,15 @@ class TomatoTimer extends Timer {
     super.setTime(0, intervals[iterationNumber]);
     super.startTimer();
 
-    iterationNumber += 1;
-
+    console.log(!intervals[iterationNumber + 1]);
     if (!intervals[iterationNumber]) {
-      this.callOnCompletion = () => {
-        super.setTime(0, intervals[0]);
-        this.callOnCompletion = undefined;
-      };
+      console.log("усё");
+      this.callOnCompletion = undefined;
       return;
     }
 
     this.callOnCompletion = () => {
-      this.startRound(iterationNumber, intervals);
+      this.startRound(++iterationNumber, intervals);
     };
   };
 

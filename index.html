@@ -6,36 +6,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 
+    <script defer src="setIntervalСhecker.js"></script>
     <script defer src="timer.js"></script>
     <script defer src="main.js"></script>
 </head>
 
 <body style="display: flex; justify-content: center;">
 
-    <div style="margin: 20vh;">
+    <div style="margin: 10vh;">
+
+        <h2>Статус</h2>
 
         <div style="font-size: 50px; text-align: center;" id="taimers"> </div>
 
         <div class="">
-            <button onclick="timer.startTimer()">старт</button>
-            <button onclick="timer.restartTimer()">перезапустить</button>
-            <button onclick="timer.stopTimer()">стоп</button>
+
+            <button onclick="tomatoTimer.startTomatoTimer()">старт</button>
+            <button onclick="tomatoTimer.stopTimer()">стоп</button>
+
+            <button onclick="tomatoTimer.restartTimer()">перезапустить</button>
+            <button onclick="tomatoTimer.skipIterate()">пропустить</button>
         </div>
 
         <br>
 
         <div style="display: grid;">
-            <label id="valueTimer" for="">timer</label>
-            <input max="90" id="inputTimer" type="range">
+            <label for="">
+                <span id="valueTimer"></span>
+                - Время работы
+            </label>
+            <input min="1" max="90" id="inputTimer" type="range">
 
-            <label id="valueShortBreak" for="">shortBreak</label>
-            <input max="90" id="inputShortBreak" type="range">
+            <label for="">
+                <span id="valueShortBreak"></span>
+                - Короткий перерыв
+            </label>
+            <input min="1" max="90" id="inputShortBreak" type="range">
 
-            <label id="valueLongBreak" for="">longBreak</label>
-            <input max="90" id="inputLongBreak" type="range">
+            <label for="">
+                <span id="valueLongBreak"></span>
+                - Длинный перерыв
+            </label>
+            <input min="1" max="90" id="inputLongBreak" type="range">
 
-            <label id="valueRounds" for="">rounds</label>
-            <input max="90" id="inputRounds" type="range">
+            <label for="">
+                <span id="valueRounds"></span>
+                - Количество итераций
+            </label>
+            <input min="1" max="90" id="inputRounds" type="range">
         </div>
     </div>
 
