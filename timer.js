@@ -46,6 +46,8 @@ class Timer {
   }
 
   startTimer() {
+    if (this.intervalId) return;
+
     let intervalId;
     let { hours, minutes, seconds } = this.time;
 
@@ -78,11 +80,14 @@ class Timer {
       minutes: minutes,
       seconds: seconds,
     };
+
     intervalId = setInterval(countDown, 1000);
     this.intervalId = intervalId;
   }
 
   stopTimer() {
+    if (!this.intervalId) return;
+    console.log(1);
     clearInterval(this.intervalId);
     this.intervalId = undefined;
   }
