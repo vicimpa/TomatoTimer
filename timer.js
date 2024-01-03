@@ -80,19 +80,20 @@ class Timer {
       minutes: minutes,
       seconds: seconds,
     };
-
     intervalId = setInterval(countDown, 1000);
     this.intervalId = intervalId;
   }
 
   stopTimer() {
     if (!this.intervalId) return;
-    console.log(1);
+
     clearInterval(this.intervalId);
     this.intervalId = undefined;
   }
 
   restartTimer() {
+    if (!this.intervalId) return;
+
     this.stopTimer();
     this.setTime(...Object.values(this.timerDuration));
   }

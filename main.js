@@ -48,7 +48,7 @@ class TomatoTimer extends Timer {
     rounds: 0,
   };
 
-  #currentRound = 0;
+  #currentRound = 1;
   #currentInterval = 0;
 
   constructor(...argum) {
@@ -78,7 +78,7 @@ class TomatoTimer extends Timer {
   }
 
   skipIterate() {
-    clearInterval(this.intervalId);
+    this.stopTimer();
     this.callOnCompletion?.();
   }
 
@@ -91,6 +91,7 @@ class TomatoTimer extends Timer {
 
     if (this.#currentInterval >= intervals.length - 1) {
       this.#currentInterval = 0;
+      
     }
 
     this.callOnCompletion = () => {
