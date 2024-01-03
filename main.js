@@ -49,6 +49,7 @@ class TomatoTimer extends Timer {
   };
 
   #currentRound = 0;
+  #currentInterval = 0;
 
   constructor(...argum) {
     super(argum);
@@ -64,6 +65,11 @@ class TomatoTimer extends Timer {
 
     super.setTime(0, this.userSettings.workTime);
 
+    let { workTime, longBreak, shortBreak, rounds } = this.#defaultSettings;
+    let intervals = [workTime, longBreak, shortBreak];
+
+    this.startRound(intervals);
+
     let inputLinker = new linkInputInObject(this.userSettings);
     inputLinker.connect("inputTimer", ["workTime", "valueTimer"]);
     inputLinker.connect("inputShortBreak", ["shortBreak", "valueShortBreak"]);
@@ -71,37 +77,24 @@ class TomatoTimer extends Timer {
     inputLinker.connect("inputRounds", ["rounds", "valueRounds"]);
   }
 
-  startTomatoTimer() {
-    let { workTime, longBreak, shortBreak, rounds } = this.#defaultSettings;
-    let intervals = [workTime, longBreak];
-
-    // 0 - значение с которого начнутся итерации
-    this.startRound(0, intervals);
-  }
-
   skipIterate() {
     clearInterval(this.intervalId);
     this.callOnCompletion?.();
   }
 
-  startRound = (iterationNumber, intervals) => {
-    if (!isFinite(intervals[iterationNumber])) return;
+  startRound = (intervals) => {
+    if (!isFinite(intervals[this.#currentInterval])) return;
 
-    super.setTime(0, intervals[iterationNumber]);
-    super.startTimer();
+    this.setTime(0, intervals[this.#currentInterval]);
 
-    iterationNumber += 1;
+    this.#currentInterval += 1;
 
-    if (!intervals[iterationNumber]) {
-      this.callOnCompletion = () => {
-        super.setTime(0, intervals[0]);
-        this.callOnCompletion = undefined;
-      };
-      return;
+    if (this.#currentInterval >= intervals.length - 1) {
+      this.#currentInterval = 0;
     }
 
     this.callOnCompletion = () => {
-      this.startRound(iterationNumber, intervals);
+      this.startRound(intervals);
     };
   };
 
