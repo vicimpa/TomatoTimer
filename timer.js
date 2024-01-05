@@ -80,7 +80,9 @@ class Timer {
       minutes: minutes,
       seconds: seconds,
     };
+
     intervalId = setInterval(countDown, 1000);
+    
     this.intervalId = intervalId;
   }
 

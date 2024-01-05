@@ -43,32 +43,23 @@ class linkInputInObject {
 class TomatoTimer extends Timer {
   #defaultSettings = {
     workTime: 25,
-    longBreak: 11,
-    shortBreak: 0,
-    rounds: 0,
+    longBreak: 30,
+    shortBreak: 5,
+    rounds: 2,
   };
 
-  #currentRound = 1;
   #currentInterval = 0;
+  #currentRound = 1;
 
   constructor(...argum) {
     super(argum);
 
-    this.userSettings = { ...this.#defaultSettings };
+    this.userSettings = {
+      ...this.#defaultSettings,
+    };
     this.currentStatus = "";
-    this.iterations = [
-      {
-        name: "Время работать",
-        taime: this.userSettings.workTime,
-      },
-    ];
 
-    super.setTime(0, this.userSettings.workTime);
-
-    let { workTime, longBreak, shortBreak, rounds } = this.#defaultSettings;
-    let intervals = [workTime, longBreak, shortBreak];
-
-    this.startRound(intervals);
+    this.startRound();
 
     let inputLinker = new linkInputInObject(this.userSettings);
     inputLinker.connect("inputTimer", ["workTime", "valueTimer"]);
@@ -77,30 +68,62 @@ class TomatoTimer extends Timer {
     inputLinker.connect("inputRounds", ["rounds", "valueRounds"]);
   }
 
-  skipIterate() {
-    this.stopTimer();
-    this.callOnCompletion?.();
+  startTomatoTimer() {
+    if (this.time === this.timerDuration || !this.timerDuration) {
+      this.startRound();
+    }
+    this.startTimer();
   }
 
-  startRound = (intervals) => {
-    if (!isFinite(intervals[this.#currentInterval])) return;
+  startRound() {
+    this.setCurrentTime();
 
-    this.setTime(0, intervals[this.#currentInterval]);
+    this.callOnCompletion = this.skipIterate;
+  }
 
+  skipIterate() {
     this.#currentInterval += 1;
 
-    if (this.#currentInterval >= intervals.length - 1) {
+    if (this.#currentInterval > 1) {
       this.#currentInterval = 0;
-      
+      this.#currentRound += 1;
     }
 
-    this.callOnCompletion = () => {
-      this.startRound(intervals);
-    };
-  };
+    this.setCurrentTime();
+  }
 
-  stopTomatoTimer() {}
-  resetTomatoTimer() {}
+  resetTomatoTimer() {
+    this.setCurrentTime();
+  }
+
+  setCurrentTime() {
+    let intervals = [this.userSettings.workTime, this.userSettings.shortBreak];
+
+    if (
+      this.#currentRound === this.userSettings.rounds &&
+      this.#currentInterval === 1
+    ) {
+      this.#currentRound = 0;
+      this.#currentInterval = 1;
+
+      intervals[1] = this.userSettings.longBreak;
+    }
+
+    this.stopTimer();
+    this.setTime(0, intervals[this.#currentInterval]);
+  }
+
+  setStatus(nameStatus, idHtmlElement) {
+    const element = document.getElementById(idHtmlElement);
+
+    const statuses = {
+      workTime: "Время работать",
+      longBreak: "Теперь можно немного отдохнуть",
+      shortBreak: "Самое время сделать перерыв",
+    };
+
+    element.innerText = statuses[nameStatus];
+  }
 }
 
 let tomatoTimer = new TomatoTimer("taimers");
