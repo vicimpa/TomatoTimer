@@ -45,7 +45,7 @@ class TomatoTimer extends Timer {
     workTime: 25,
     longBreak: 30,
     shortBreak: 5,
-    rounds: 2,
+    rounds: 4,
   };
 
   #currentInterval = 0;
@@ -76,9 +76,8 @@ class TomatoTimer extends Timer {
   }
 
   startRound() {
-    this.setCurrentTime();
-
     this.callOnCompletion = this.skipIterate;
+    this.setNextTime();
   }
 
   skipIterate() {
@@ -89,28 +88,28 @@ class TomatoTimer extends Timer {
       this.#currentRound += 1;
     }
 
-    this.setCurrentTime();
+    this.setNextTime();
   }
 
   resetTomatoTimer() {
-    this.setCurrentTime();
+    this.setNextTime();
   }
 
-  setCurrentTime() {
-    let intervals = [this.userSettings.workTime, this.userSettings.shortBreak];
+  setNextTime() {
+    const { workTime, shortBreak, longBreak, rounds } = this.userSettings;
 
-    if (
-      this.#currentRound === this.userSettings.rounds &&
-      this.#currentInterval === 1
-    ) {
+    let timeIntervals = [workTime];
+
+    if (this.#currentRound + 1 > rounds && this.#currentInterval == 1) {
       this.#currentRound = 0;
-      this.#currentInterval = 1;
 
-      intervals[1] = this.userSettings.longBreak;
+      timeIntervals[1] = longBreak;
+    } else {
+      timeIntervals[1] = shortBreak;
     }
 
     this.stopTimer();
-    this.setTime(0, intervals[this.#currentInterval]);
+    this.setTime(0, timeIntervals[this.#currentInterval]);
   }
 
   setStatus(nameStatus, idHtmlElement) {

@@ -1,4 +1,4 @@
-class IntervalMenagerie {
+class IntervalManager {
   constructor() {
     this.activeIntervals = {};
 
@@ -24,4 +24,4 @@ class IntervalMenagerie {
   }
 }
 
-const intervalMenagerie = new IntervalMenagerie().activeIntervals;
+const intervalManager = new IntervalManager().activeIntervals;
