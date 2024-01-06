@@ -106,7 +106,9 @@ class TomatoTimer extends Timer {
     const { workTime, shortBreak, longBreak, rounds } = this.userSettings;
 
     const breakTime =
-      this.#currentRound + 1 > rounds && this.#currentInterval == 1
+      this.#currentRound + 1 > rounds &&
+      this.#currentInterval == 1 &&
+      rounds >= 2
         ? longBreak
         : shortBreak;
 
