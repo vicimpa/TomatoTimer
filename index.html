@@ -6,9 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 
+    <script defer type="module" src="./main.js"></script>
     <script defer src="setIntervalСhecker.js"></script>
-    <script defer src="timer.js"></script>
-    <script defer src="main.js"></script>
 </head>
 
 <body style="display: flex; justify-content: center;">
@@ -20,11 +19,11 @@
         <div style="font-size: 50px; text-align: center;" id="taimers"> </div>
 
         <div class="">
-            <button onclick="tomatoTimer.startTomatoTimer()">старт</button>
-            <button onclick="tomatoTimer.stopTimer()">стоп</button>
+            <button id="startTimer">старт</button>
+            <button id="stopTimer">стоп</button>
 
-            <button onclick="tomatoTimer.resetTomatoTimer()">перезапустить</button>
-            <button onclick="tomatoTimer.skipIterate()">пропустить</button>
+            <button id="resetTimer">перезапустить</button>
+            <button id="skipIteration">пропустить</button>
         </div>
 
         <br>

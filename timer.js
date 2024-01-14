@@ -1,4 +1,4 @@
-class Timer {
+export class Timer {
   constructor(idHTMLelement) {
     this.id = Math.random();
     this.timerDuration = undefined;
