@@ -1,0 +1,35 @@
+html, body {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3 {
+  margin: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.timer {
+  font-size: 50px;
+}
+
+.controllers {
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+}
+
+.controllers input {
+  width: 300px;
+}
+
+button {
+  cursor: pointer;
+}

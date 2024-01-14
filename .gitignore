@@ -1,2 +1,3 @@
-/.vs
-test.js
+node_modules
+dist
+.vscode

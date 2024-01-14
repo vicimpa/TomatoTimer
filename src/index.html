@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="index.css">
+  <script defer type="module" src="index.ts"></script>
+</head>
+
+<body>
+  <h1>Статус</h1>
+  <h2 class="timer" id="timer"></h2>
+  <h4 class="status" id="status"></h4>
+
+  <div class="buttons" id="buttons">
+    <button data-action="start">старт</button>
+    <button data-action="stop">стоп</button>
+
+    <button data-action="reset">перезапустить</button>
+    <button data-action="skip">пропустить</button>
+  </div>
+
+  <br>
+
+  <div id="controllers" class="controllers">
+    <label data-name="work">
+      <span></span>
+      - Время работы
+      <br />
+      <input min="1" max="90" type="range">
+    </label>
+
+    <label data-name="break">
+      <span></span>
+      - Короткий перерыв
+      <br />
+      <input min="1" max="90" type="range">
+    </label>
+
+    <label data-name="relax">
+      <span></span>
+      - Длинный перерыв
+      <br />
+      <input min="1" max="90" type="range">
+    </label>
+
+    <label data-name="iters">
+      <span></span>
+      - Количество итераций
+      <br />
+      <input min="1" max="90" type="range">
+    </label>
+  </div>
+</body>
+
+</html>
