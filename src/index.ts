@@ -3,7 +3,8 @@ import { TomatoTimer } from "class/TomatoTimer";
 import { times } from "utils/times";
 
 // Находим всё, что нужно
-const infoElement = document.getElementById('timer')!;
+const timerElement = document.getElementById('timer')!;
+const msTimerElement = document.getElementById('mstimer')!;
 const statusInfo = document.getElementById('status')!;
 const buttons = document.getElementById('buttons')!;
 const controllers = document.getElementById('controllers')!;
@@ -69,13 +70,17 @@ for (const element of controllers.querySelectorAll('label')) {
 
 timer.observer.subscribe(
   ({ time, stepName, isRunning }) => {
-    const [s, m, h] = times(time / 1000, [60, 60, 0]);
+    const [ms, s, m, h] = times(time, [1000, 60, 60, 0]);
 
     const timeString = `${h}:${m}:${s}`;
+    const msTimeString = ms.padStart(3, '0');
     const statusString = `[${stepName}] ${isRunning ? 'Запущен' : 'Остановлен'}`;
 
-    if (infoElement.innerText !== timeString)
-      infoElement.innerText = timeString;
+    if (timerElement.innerText !== timeString)
+      timerElement.innerText = timeString;
+
+    if (msTimerElement.innerText !== msTimeString)
+      msTimerElement.innerText = msTimeString;
 
     if (statusInfo.innerText !== statusString)
       statusInfo.innerText = `[${stepName}] ${isRunning ? 'Запущен' : 'Остановлен'}`;

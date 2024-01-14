@@ -17,8 +17,16 @@ body {
 }
 
 .timer {
-  font-size: 50px;
   margin: 20px;
+}
+
+#timer {
+  font-size: 50px;
+  font-weight: 600;
+}
+
+#mstimer {
+  font-size: 20px;
 }
 
 .controllers {
