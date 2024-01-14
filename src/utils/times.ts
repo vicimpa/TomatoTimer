@@ -19,6 +19,6 @@ export const times = <T extends number[]>(time = 0, params?: T) => (
     let out = time;
     if (prev) out = (time /= prev);
     if (cur) out %= cur;
-    return `${out | 0}`.padStart(2, '0');
+    return `${Math.max(0, out | 0)}`.padStart(2, '0');
   })
 );
