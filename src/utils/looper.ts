@@ -6,8 +6,10 @@ var LOOP_SET = new Set<TLoop>();
 var lastTime = -1;
 var lastDeltatime = -1;
 
-const loop = (time: number) => {
+const loop = () => {
   requestAnimationFrame(loop);
+
+  const time = performance.now();
 
   if (lastTime < 0) {
     lastTime = time;
