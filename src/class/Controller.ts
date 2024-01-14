@@ -1,19 +1,44 @@
-import { ControllerItem } from "./ControllerItem";
 import { Subscriber } from "./Subscriber";
 
-export type TElements = { [key: string]: HTMLElement; };
-export type TControllres<T extends TElements> = { [key in keyof T]: ControllerItem };
+/**
+ * @description
+ * Это контроллер для структуры
+ * ```html
+ * <label>
+ *    <span></span>
+ *    - Какой-то текст
+ *    <input />
+ * </label>
+ * ```
+ */
+export class Controller extends Subscriber<string> {
+  #span!: HTMLSpanElement;
+  #input!: HTMLInputElement;
 
-export class Controller<T extends TElements> extends Subscriber<TControllres<T>> {
-  constructor(elements: T) {
-    const ranges: TControllres<T> = {} as any;
+  constructor(key: string, elem: HTMLElement) {
+    if (!(elem instanceof HTMLLabelElement))
+      throw new Error(`${key} is not label element`);
 
-    for (const key in elements) {
-      const item = new ControllerItem(key, elements[key]);
-      ranges[key] = item;
-      item.subscribe(() => this.update(), false);
-    }
+    const span = elem.querySelector('span');
+    const input = elem.querySelector('input');
 
-    super(ranges);
+    if (!span) throw new Error(`${key} not have span!`);
+    if (!input) throw new Error(`${key} not have input!`);
+
+    super(input.value);
+
+    this.#span = span;
+    this.#input = input;
+
+    input.onchange = input.oninput = () => {
+      if (this.value !== input.value)
+        this.value = input.value;
+    };
+
+    this.subscribe(v => {
+      this.#span.innerText = v;
+      if (this.#input.value !== v)
+        this.#input.value = v;
+    });
   }
 }

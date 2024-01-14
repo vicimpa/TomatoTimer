@@ -4,6 +4,10 @@ import { Subscriber } from "./Subscriber";
 
 export type TTransform<T> = (v: number) => T;
 
+/**
+ * @description
+ * Это таймер 
+ */
 export class Timer<T = number> extends Subscriber<T> {
   #runner?: TRunner;
   #denom: TTransform<T>;

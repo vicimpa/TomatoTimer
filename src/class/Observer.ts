@@ -5,11 +5,19 @@ import { Subscriber, TSub } from "./Subscriber";
 export type TObserve<T> = () => T;
 export type TCondition<T> = (a: T, b: T) => any;
 
+/**
+ * @description
+ * Херня для слежения за данными
+ */
 export class Observer<T> extends Subscriber<T> {
   #observe!: TObserve<T>;
   #condition!: TCondition<T>;
   #runner!: (() => void) | undefined;
 
+  /**
+   * @param observe Функция получения данных
+   * @param condition Необязательная функция сравнения данных
+   */
   constructor(
     observe: TObserve<T>,
     condition?: TCondition<T>
@@ -19,6 +27,9 @@ export class Observer<T> extends Subscriber<T> {
     this.#condition = condition ?? ((a, b) => a === b);
   }
 
+  /**
+   * Так же как и в Subscriber
+   */
   subscribe(callback: TSub<T>, initEvent = true) {
     try {
       return super.subscribe(callback, initEvent);

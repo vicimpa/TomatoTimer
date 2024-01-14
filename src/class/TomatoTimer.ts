@@ -12,6 +12,9 @@ export type TSteps = {
   relax: TStepItem;
 };
 
+/**
+ * Тут я заколебусь описывать =) Сам разберись
+ */
 export class TomatoTimer {
   #timer = new Timer();
 

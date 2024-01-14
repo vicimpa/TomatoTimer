@@ -1,5 +1,9 @@
 export type TSub<T> = (v: T) => any;
 
+/**
+ * @description
+ * Херня для реактивности
+ */
 export class Subscriber<T> {
   #subs = new Set<TSub<T>>();
 
@@ -21,21 +25,30 @@ export class Subscriber<T> {
     this.update();
   }
 
+  /**
+   * @param initialValue Значение по-умолчанию
+   */
   constructor(initialValue: T) {
     this.#value = initialValue;
   }
 
-  update(subscriber?: TSub<T>): void {
-    if (subscriber)
-      return subscriber(this.value);
-
+  /**
+   * @description Херня дёргает подписчиков
+   */
+  update(): void {
     for (const sub of this.#subs)
-      this.update(sub);
+      sub(this.#value);
   }
 
+  /**
+   * @description Подписывает функцию на обновление
+   * @param callback Собственно функция обновления
+   * @param initEvent Нужно ли дергать её изначально (по дефолту true)
+   * @returns Тут функция для отписки данного подписчика
+   */
   subscribe(callback: TSub<T>, initEvent = true) {
     if (initEvent)
-      this.update(callback);
+      callback(this.#value);
 
     return (
       this.#subs.add(callback),

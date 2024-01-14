@@ -1,26 +1,14 @@
 import { Controller } from "class/Controller";
-import { TomatoTimer, TSteps } from "class/TomatoTimer";
-import { findBy } from "utils/findBy";
+import { TomatoTimer } from "class/TomatoTimer";
 import { times } from "utils/times";
 
+// Находим всё, что нужно
 const infoElement = document.getElementById('timer')!;
 const statusInfo = document.getElementById('status')!;
 const buttons = document.getElementById('buttons')!;
+const controllers = document.getElementById('controllers')!;
 
-const ctrlElements = findBy(
-  (name) => (
-    document
-      .querySelector<HTMLElement>(
-        `#controllers [data-name=${name}]`
-      )!
-  ),
-  'work',
-  'break',
-  'relax',
-  'iters'
-);
-
-const ctrl = new Controller(ctrlElements);
+// Создаём таймер
 const timer = new TomatoTimer();
 
 buttons.onclick = ({ target }) => {
@@ -35,23 +23,32 @@ buttons.onclick = ({ target }) => {
   }
 };
 
-ctrl.value.iters.value = `${timer.needIters + 1}`;
-ctrl.value.iters.subscribe((v) => {
-  timer.needIters = +v - 1;
-});
+for (const element of controllers.querySelectorAll('label')) {
+  const { name } = element.dataset;
+  const ctrlItem = new Controller(name!, element);
 
-for (const _key in ctrl.value) {
-  if (_key in timer.steps) {
-    const key = _key as keyof TSteps;
-    const ctrlItem = ctrl.value[key];
-    const valueItem = timer.steps[key];
-    ctrlItem.value = `${valueItem.time / 60 / 1000 | 0}`;
-    ctrlItem.subscribe(v => {
-      valueItem.time = (+v) * 60 * 1000;
-    });
+  switch (name) {
+    case 'work':
+    case 'break':
+    case 'relax': {
+      const valueItem = timer.steps[name];
+      ctrlItem.value = `${valueItem.time / 60 / 1000 | 0}`;
+      ctrlItem.subscribe(v => {
+        valueItem.time = (+v) * 60 * 1000;
+      });
+      break;
+    }
+
+    case 'iters': {
+      ctrlItem.value = `${timer.needIters + 1}`;
+      ctrlItem.subscribe((v) => {
+        timer.needIters = +v - 1;
+      });
+      break;
+    }
   }
 }
-console.log(times(51576, [60, 60, 0]));
+
 timer.observer.subscribe(
   ({ time, stepName, isRunning }) => {
     const [s, m, h] = times(time / 1000, [60, 60, 0]);
