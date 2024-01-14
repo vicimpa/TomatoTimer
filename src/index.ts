@@ -11,14 +11,32 @@ const controllers = document.getElementById('controllers')!;
 // Создаём таймер
 const timer = new TomatoTimer();
 
+// Подписываемся на кнопки
 buttons.onclick = ({ target }) => {
   if (target instanceof HTMLButtonElement) {
     const click = target.dataset.action;
 
-    if (!click) return;
+    switch (click) {
+      // Обрабатываем стандартные события
+      case 'reset':
+      case 'skip': {
+        timer[click]();
+        break;
+      }
 
-    if (click in timer) {
-      (timer as any)[click]();
+      case 'start-stop': {
+        if (timer.isRunning)
+          timer.stop();
+        else
+          timer.start();
+        break;
+      }
+
+      // Сбросить текущий
+      case 'reset-current': {
+        timer.reset(true);
+        break;
+      }
     }
   }
 };

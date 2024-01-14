@@ -37,6 +37,10 @@ export class TomatoTimer {
     }
   };
 
+  get isRunning() {
+    return this.#timer.isRunning;
+  }
+
   get stepObject() {
     return this.steps[this.step];
   }
@@ -112,9 +116,11 @@ export class TomatoTimer {
     this.#timer.stop();
   }
 
-  reset() {
+  reset(isCurrent = false) {
     this.#timer.reset();
-    this.step = 'work';
-    this.iters = 0;
+    if (!isCurrent) {
+      this.step = 'work';
+      this.iters = 0;
+    }
   }
 }

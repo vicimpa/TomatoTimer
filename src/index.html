@@ -10,22 +10,21 @@
 </head>
 
 <body>
-  <h1>Статус</h1>
-  <h2 class="timer" id="timer"></h2>
   <h4 class="status" id="status"></h4>
+  <h2 class="timer" id="timer"></h2>
 
   <div class="buttons" id="buttons">
-    <button data-action="start">старт</button>
-    <button data-action="stop">стоп</button>
-
-    <button data-action="reset">перезапустить</button>
-    <button data-action="skip">пропустить</button>
+    <button data-action="start-stop">⏯️ старт/пауза</button>
+    <button data-action="reset-current">🔄 перезапустить</button>
+    <button data-action="skip">⏭️ пропустить</button>
+    <button data-action="reset">🆑 сбросить</button>
   </div>
 
   <br>
 
   <div id="controllers" class="controllers">
     <label data-name="work">
+      💪
       <span></span>
       - Время работы
       <br />
@@ -33,6 +32,7 @@
     </label>
 
     <label data-name="break">
+      ⏱️
       <span></span>
       - Короткий перерыв
       <br />
@@ -40,6 +40,7 @@
     </label>
 
     <label data-name="relax">
+      💤
       <span></span>
       - Длинный перерыв
       <br />
@@ -47,6 +48,7 @@
     </label>
 
     <label data-name="iters">
+      📝
       <span></span>
       - Количество итераций
       <br />
