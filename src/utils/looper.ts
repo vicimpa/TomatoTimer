@@ -6,9 +6,7 @@ var LOOP_SET = new Set<TLoop>();
 var lastTime = -1;
 var lastDeltatime = -1;
 
-const loop = () => {
-  requestAnimationFrame(loop);
-
+setInterval(() => {
   const time = performance.now();
 
   if (lastTime < 0) {
@@ -22,9 +20,7 @@ const loop = () => {
   for (const loop of LOOP_SET) {
     runLoop(loop);
   }
-};
-
-requestAnimationFrame(loop);
+}, 1000 / 30);
 
 export const runLoop = <T extends TLoop>(loop: T): ReturnType<T> => {
   return loop(lastTime, lastDeltatime);
