@@ -1,4 +1,5 @@
 import { Controller } from "class/Controller";
+import { FDate } from "class/FDate";
 import { TomatoTimer } from "class/TomatoTimer";
 import { times } from "utils/times";
 
@@ -42,6 +43,8 @@ buttons.onclick = ({ target }) => {
   }
 };
 
+const ONE_MINUTES = FDate.fromString('1m');
+
 // Маппим контроллеры
 for (const element of controllers.querySelectorAll('label')) {
   const { name } = element.dataset;
@@ -52,9 +55,9 @@ for (const element of controllers.querySelectorAll('label')) {
     case 'break':
     case 'relax': {
       const valueItem = timer.steps[name];
-      ctrlItem.value = `${valueItem.time / 60 / 1000 | 0}`;
+      ctrlItem.value = `${valueItem.time / ONE_MINUTES | 0}`;
       ctrlItem.subscribe(v => {
-        valueItem.time = (+v) * 60 * 1000;
+        valueItem.time = (+v) * ONE_MINUTES;
       });
       break;
     }

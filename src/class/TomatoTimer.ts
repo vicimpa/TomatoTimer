@@ -1,3 +1,4 @@
+import { FDate } from "./FDate";
 import { Observer } from "./Observer";
 import { Timer } from "./Timer";
 
@@ -25,15 +26,15 @@ export class TomatoTimer {
   steps: TSteps = {
     'work': {
       name: 'Работа 💪',
-      time: 25 * 60 * 1000
+      time: FDate.fromString('25m')
     },
     'break': {
       name: 'Перерыв ⏱️',
-      time: 5 * 60 * 1000
+      time: FDate.fromString('5m')
     },
     'relax': {
       name: 'Отдых 💤',
-      time: 20 * 60 * 1000
+      time: FDate.fromString('20m')
     }
   };
 
