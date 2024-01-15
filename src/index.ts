@@ -48,23 +48,19 @@ const ONE_MINUTES = FDate.fromString('1m');
 // Маппим контроллеры
 for (const element of controllers.querySelectorAll('label')) {
   const { name } = element.dataset;
-  const ctrlItem = new Controller(name!, element);
 
   switch (name) {
     case 'work':
     case 'break':
     case 'relax': {
-      const valueItem = timer.steps[name];
-      ctrlItem.value = `${valueItem.time / ONE_MINUTES | 0}`;
-      ctrlItem.subscribe(v => {
-        valueItem.time = (+v) * ONE_MINUTES;
+      new Controller(name!, element).subscribe(v => {
+        timer.steps[name].time = (+v) * ONE_MINUTES;
       });
       break;
     }
 
     case 'iters': {
-      ctrlItem.value = `${timer.needIters + 1}`;
-      ctrlItem.subscribe((v) => {
+      new Controller(name!, element).subscribe((v) => {
         timer.needIters = +v - 1;
       });
       break;
