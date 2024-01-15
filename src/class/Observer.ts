@@ -28,25 +28,49 @@ export class Observer<T> extends Subscriber<T> {
   }
 
   /**
+   * @description
+   * Запуск цикла сравнения новых данных с предыдущими
+   */
+  start() {
+    if (this.#runner)
+      return;
+
+    this.#runner = looper(() => {
+      // Получаем новые данные
+      const result = this.#observe();
+
+      // Сравниваем с предыдущими и устанавливаем, если не равны
+      if (!this.#condition(this.value, result))
+        this.value = result;
+    });
+  }
+
+  /**
+   * @description
+   * Остановка цикла сравнения новых данных с предыдущими
+   */
+  stop() {
+    if (!this.#runner)
+      return;
+
+    this.#runner();
+    this.#runner = undefined;
+  }
+
+  /**
    * Так же как и в Subscriber
    */
   subscribe(callback: TSub<T>, initEvent = true) {
     try {
       return super.subscribe(callback, initEvent);
     } finally {
-      if (this.subsSize && !this.#runner) {
-        this.#runner = looper(() => {
-          const result = this.#observe();
+      // Если есть подписчики
+      if (this.subsSize)
+        this.start();
 
-          if (!this.#condition(this.value, result))
-            this.value = result;
-        });
-      }
-
-      if (!this.subsSize && this.#runner) {
-        this.#runner();
-        this.#runner = undefined;
-      }
+      // Если их нет
+      if (!this.subsSize)
+        this.stop();
     }
   }
 }

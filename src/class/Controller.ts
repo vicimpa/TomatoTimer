@@ -30,11 +30,13 @@ export class Controller extends Subscriber<string> {
     this.#span = span;
     this.#input = input;
 
+    // При изменении input устанавливаем значение в Subscriber
     input.onchange = input.oninput = () => {
       if (this.value !== input.value)
         this.value = input.value;
     };
 
+    // При изменении Subscriber ставить значения в span и input
     this.subscribe(v => {
       this.#span.innerText = v;
       if (this.#input.value !== v)

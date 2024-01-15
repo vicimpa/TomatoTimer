@@ -42,6 +42,7 @@ buttons.onclick = ({ target }) => {
   }
 };
 
+// Маппим контроллеры
 for (const element of controllers.querySelectorAll('label')) {
   const { name } = element.dataset;
   const ctrlItem = new Controller(name!, element);
@@ -68,6 +69,7 @@ for (const element of controllers.querySelectorAll('label')) {
   }
 }
 
+// Рендерим результаты
 timer.observer.subscribe(
   ({ time, stepName, isRunning }) => {
     const [ms, s, m, h] = times(time, [1000, 60, 60, 0]);
@@ -83,6 +85,6 @@ timer.observer.subscribe(
       msTimerElement.innerText = msTimeString;
 
     if (statusInfo.innerText !== statusString)
-      statusInfo.innerText = `[${stepName}] ${isRunning ? 'Запущен' : 'Остановлен'}`;
+      statusInfo.innerText = statusString;
   }
 );
