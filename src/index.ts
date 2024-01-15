@@ -26,6 +26,7 @@ buttons.onclick = ({ target }) => {
         break;
       }
 
+      // Start-stop
       case 'start-stop': {
         if (timer.isRunning)
           timer.stop();
