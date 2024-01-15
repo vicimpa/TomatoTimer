@@ -1,8 +1,8 @@
-import { looper } from "utils/looper";
+import { looper, runLoop, TRunner } from "utils/looper";
 
 import { Subscriber, TSub } from "./Subscriber";
 
-export type TObserve<T> = () => T;
+export type TObserve<T> = (time: number, dtime: number) => T;
 export type TCondition<T> = (a: T, b: T) => any;
 
 /**
@@ -12,7 +12,11 @@ export type TCondition<T> = (a: T, b: T) => any;
 export class Observer<T> extends Subscriber<T> {
   #observe!: TObserve<T>;
   #condition!: TCondition<T>;
-  #runner!: (() => void) | undefined;
+  #runner?: TRunner;
+
+  get isRunning() {
+    return Boolean(this.#runner);
+  }
 
   /**
    * @param observe Функция получения данных
@@ -22,7 +26,7 @@ export class Observer<T> extends Subscriber<T> {
     observe: TObserve<T>,
     condition?: TCondition<T>
   ) {
-    super(observe());
+    super(runLoop(observe));
     this.#observe = observe;
     this.#condition = condition ?? ((a, b) => a === b);
   }
@@ -35,9 +39,9 @@ export class Observer<T> extends Subscriber<T> {
     if (this.#runner)
       return;
 
-    this.#runner = looper(() => {
+    this.#runner = looper((time, dtime) => {
       // Получаем новые данные
-      const result = this.#observe();
+      const result = this.#observe(time, dtime);
 
       // Сравниваем с предыдущими и устанавливаем, если не равны
       if (!this.#condition(this.value, result))
