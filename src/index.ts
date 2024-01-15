@@ -44,6 +44,7 @@ buttons.onclick = ({ target }) => {
   }
 };
 
+// Количество миллисекунд в 1 минуте
 const ONE_MINUTES = FDate.fromString('1m');
 
 // Маппим контроллеры
