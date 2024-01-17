@@ -1,6 +1,6 @@
 import { FC, ReactNode } from "react";
 
-import { FormGroup, Slider, Typography } from "@mui/material";
+import { FormGroup, Slider, Stack, Typography } from "@mui/material";
 import { Signal, useSignal } from "@preact/signals-react";
 import { useComputed } from "@preact/signals-react/runtime";
 
@@ -34,12 +34,14 @@ export const SettingsItem: FC<TSettingsItemProps> = ({
 
   return (
     <FormGroup>
-      <Typography>
+      <Stack direction="row" gap={1}>
         {icon}
-        {denomValue}
-        {' - '}
-        {label}
-      </Typography>
+        <Typography>
+          {denomValue}
+          {' - '}
+          {label}
+        </Typography>
+      </Stack>
 
       {sliderElement}
     </FormGroup>

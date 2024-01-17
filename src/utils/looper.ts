@@ -1,5 +1,4 @@
 export type TLoop = (time: number, dtime: number) => any;
-export type TRunner = () => void;
 
 var LOOP_SET = new Set<TLoop>();
 

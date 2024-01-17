@@ -12,7 +12,7 @@ export const useClass = <T, A extends any[]>(
 ) => {
   const object = useMemo(() => (
     new classType(...args)
-  ), [...args]) as T & { [SymbolDestructor]?: () => void; };
+  ), [classType, ...args]) as T & { [SymbolDestructor]?: () => void; };
 
   useLayoutEffect(() => {
     if (!object[SymbolDestructor])
@@ -21,7 +21,7 @@ export const useClass = <T, A extends any[]>(
     return () => {
       object[SymbolDestructor]?.();
     };
-  }, [...args]);
+  }, [classType, ...args]);
 
   return object;
 };

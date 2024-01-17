@@ -1,19 +1,19 @@
-import { IDestructedClass, SymbolDestructor } from "@/hooks/useClass";
-import { looper, TLoop, TRunner } from "@/utils/looper";
+import { looper, TLoop } from "@/utils/looper";
+import { toEffect } from "@/utils/toEffect";
 import { computed, signal } from "@preact/signals-react";
 
-export class Runner implements IDestructedClass {
-  #runner = signal<TRunner | undefined>(undefined);
+export class Runner {
+  #runner = signal<Function | undefined>(undefined);
   #loop!: TLoop;
 
   readonly isRunning = computed(() => !!this.#runner.value);
 
   constructor(loop: TLoop) {
     this.#loop = loop;
-  }
 
-  [SymbolDestructor]() {
-    this.stop();
+    toEffect(this, () => (
+      this.stop.bind(this)
+    ));
   }
 
   startStop() {

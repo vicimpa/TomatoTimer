@@ -1,6 +1,7 @@
+import unfont from "unplugin-fonts/vite";
 import { defineConfig } from "vite";
-import paths from "vite-tsconfig-paths";
 import { viteSingleFile } from "vite-plugin-singlefile";
+import paths from "vite-tsconfig-paths";
 
 export default defineConfig({
   root: './src',
@@ -15,6 +16,13 @@ export default defineConfig({
   },
   plugins: [
     paths({ root: '../' }),
-    viteSingleFile()
+    viteSingleFile(),
+    unfont({
+      google: {
+        families: [
+          'Roboto Mono'
+        ]
+      }
+    })
   ]
 });

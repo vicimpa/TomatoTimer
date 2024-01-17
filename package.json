@@ -17,6 +17,7 @@
     "autoprefixer": "^10.4.16",
     "sass": "^1.69.7",
     "typescript": "^5.2.2",
+    "unplugin-fonts": "^1.1.1",
     "vite": "^5.0.0",
     "vite-plugin-singlefile": "^0.13.5",
     "vite-tsconfig-paths": "^4.2.3"

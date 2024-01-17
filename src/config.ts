@@ -7,3 +7,5 @@ export const DEFAULT_TIMES = {
 };
 
 export const DEFAULT_ITERATIONS_COUNT = 4;
+
+export const ONE_MINUTES = FDate.fromString('1m');
