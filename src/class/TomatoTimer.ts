@@ -1,9 +1,11 @@
-import { Observer } from "./Observer";
-import { Timer } from "./Timer";
+import { DEFAULT_ITERATIONS_COUNT, DEFAULT_TIMES } from "@/config";
+import { computed, effect, Signal, signal } from "@preact/signals-react";
+
+import { Runner } from "./Runner";
 
 export type TStepItem = {
   name: string;
-  time: number;
+  time: Signal<number>;
 };
 
 export type TSteps = {
@@ -15,103 +17,64 @@ export type TSteps = {
 /**
  * Тут я заколебусь описывать =) Сам разберись
  */
-export class TomatoTimer {
-  #timer = new Timer();
+export class TomatoTimer extends Runner {
+  time = signal(0);
+  step = signal('work' as keyof TSteps);
+  iters = signal(0);
+  needIters = signal(DEFAULT_ITERATIONS_COUNT);
 
-  step: keyof TSteps = 'work';
-  iters = 0;
-  needIters = 0;
-
-  steps: TSteps = {
-    'work': { name: 'Работа 💪', time: 0 },
-    'break': { name: 'Перерыв ⏱️', time: 0 },
-    'relax': { name: 'Отдых 💤', time: 0 }
-  };
-
-  get isRunning() {
-    return this.#timer.isRunning;
-  }
-
-  get stepObject() {
-    return this.steps[this.step];
-  }
-
-  get stepTime() {
-    return this.stepObject.time;
-  }
-
-  get stepName() {
-    return this.stepObject.name;
-  }
-
-  get time() {
-    return this.stepTime - this.#timer.value;
-  }
-
-  observer = new Observer(
-    // Getter
-    () => ({
-      time: this.time,
-      step: this.step,
-      iters: this.iters,
-      isRunning: this.#timer.isRunning,
-      needIters: this.needIters,
-      stepName: this.stepName,
-      stepTime: this.stepTime,
-    }),
-
-    // Condition
-    (a, b) => (
-      true
-      && a.step === b.step
-      && a.time === b.time
-      && a.iters === b.iters
-      && a.isRunning === b.isRunning
-    )
-  );
-
-  isNextLong() {
-    if (!this.needIters)
+  isNextLong = computed(() => {
+    if (!this.needIters.value)
       return false;
 
-    return (this.iters + 1) % (this.needIters + 1) === 0;
-  }
+    return (this.iters.value + 1) % (this.needIters.value + 1) === 0;
+  });
+
+  remaining = computed(() => this.stepTime.value - this.time.value);
+  stepObject = computed(() => this.steps[this.step.value]);
+  stepTime = computed(() => this.stepObject.value.time.value);
+  stepName = computed(() => this.stepObject.value.name);
+
+  steps: TSteps = {
+    'work': { name: 'Работа 💪', time: signal(DEFAULT_TIMES.work) },
+    'break': { name: 'Перерыв ⏱️', time: signal(DEFAULT_TIMES.break) },
+    'relax': { name: 'Отдых 💤', time: signal(DEFAULT_TIMES.relax) }
+  };
 
   skip(v?: number) {
-    this.#timer.reset(v ?? 0);
+    this.time.value = v ?? 0;
+    v ?? this.stop();
 
-    if (this.step === 'work') {
-      this.step = this.isNextLong() ? 'relax' : 'break';
+    if (this.step.value === 'work') {
+      this.step.value = this.isNextLong.value ? 'relax' : 'break';
     } else {
-      this.step = 'work';
-      this.iters++;
+      this.step.value = 'work';
+      this.iters.value++;
     }
   }
 
   constructor() {
-    this.#timer.subscribe(
-      (v = 0) => {
-        while (this.stepTime - v < 0) {
-          v -= this.stepTime;
-          this.skip(v);
-        }
+    super((_, dtime) => {
+      this.time.value += dtime;
+    });
+
+    effect(() => {
+      while (this.remaining.value < 0) {
+        this.skip(
+          this.time.peek() - this.stepTime.peek()
+        );
       }
-    );
+    });
   }
 
-  start() {
-    this.#timer.start();
+  reset() {
+    this.resetCurrent();
+    this.step.value = 'work';
+    this.iters.value = 0;
+    this.stop();
   }
 
-  stop() {
-    this.#timer.stop();
-  }
-
-  reset(isCurrent = false) {
-    this.#timer.reset();
-    if (!isCurrent) {
-      this.step = 'work';
-      this.iters = 0;
-    }
+  resetCurrent() {
+    this.time.value = 0;
   }
 }
