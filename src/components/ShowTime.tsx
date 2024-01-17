@@ -19,8 +19,9 @@ export const ShowTime: FC<TShowTimeProps> = ({ time }) => {
 
   return (
     <Typography
-      variant="h3"
+      variant="h2"
       align="center"
+      fontWeight={600}
       position="relative"
     >
       {hor}:{min}:{sec}

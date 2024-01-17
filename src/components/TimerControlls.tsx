@@ -41,7 +41,7 @@ export const TimerControlls: FC<TTimerControlls> = ({ timer }) => {
       </IconButton>
 
       <IconButton
-        onClick={() => (timer.reset())}
+        onClick={() => timer.reset()}
         color="warning"
         title="Reset"
       >

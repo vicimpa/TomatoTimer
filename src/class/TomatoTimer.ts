@@ -1,4 +1,5 @@
 import { DEFAULT_ITERATIONS_COUNT, DEFAULT_TIMES } from "@/config";
+import { IDestructedClass, SymbolDestructor } from "@/hooks/useClass";
 import { computed, effect, Signal, signal } from "@preact/signals-react";
 
 import { Runner } from "./Runner";
@@ -17,7 +18,7 @@ export type TSteps = {
 /**
  * Тут я заколебусь описывать =) Сам разберись
  */
-export class TomatoTimer extends Runner {
+export class TomatoTimer extends Runner implements IDestructedClass {
   time = signal(0);
   step = signal('work' as keyof TSteps);
   iters = signal(0);
@@ -27,7 +28,7 @@ export class TomatoTimer extends Runner {
     if (!this.needIters.value)
       return false;
 
-    return (this.iters.value + 1) % (this.needIters.value + 1) === 0;
+    return (this.iters.value + 1) % this.needIters.value === 0;
   });
 
   remaining = computed(() => this.stepTime.value - this.time.value);
@@ -53,17 +54,22 @@ export class TomatoTimer extends Runner {
     }
   }
 
+  #effect = effect(() => {
+    while (this.remaining.value < 0) {
+      this.skip(
+        this.time.peek() - this.stepTime.peek()
+      );
+    }
+  });
+
+  [SymbolDestructor]() {
+    super[SymbolDestructor]?.();
+    this.#effect();
+  }
+
   constructor() {
     super((_, dtime) => {
       this.time.value += dtime;
-    });
-
-    effect(() => {
-      while (this.remaining.value < 0) {
-        this.skip(
-          this.time.peek() - this.stepTime.peek()
-        );
-      }
     });
   }
 

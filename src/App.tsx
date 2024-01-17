@@ -2,13 +2,16 @@ import { ShowTime } from "@/components/ShowTime";
 import { Card, CardContent, Grid, Typography } from "@mui/material";
 import { useComputed } from "@preact/signals-react";
 
+import { TimeLine } from "./class/TimeLine";
 import { TomatoTimer } from "./class/TomatoTimer";
+import { Canvas } from "./components/Canvas";
 import { TimerControlls } from "./components/TimerControlls";
 import { TimerSettings } from "./components/TimerSettings";
 import { useClass } from "./hooks/useClass";
 
 export const App = () => {
   const timer = useClass(TomatoTimer);
+  const renderer = useClass(TimeLine, timer);
 
   const timerElement = useComputed(() => (
     <ShowTime time={timer.remaining.value} />
@@ -28,6 +31,8 @@ export const App = () => {
         <CardContent>
           {timerElement}
 
+          <Canvas height={40} rendering={renderer} />
+
           <center>
             <TimerControlls timer={timer} />
           </center>
@@ -39,7 +44,6 @@ export const App = () => {
           </CardContent>
         </Card>
       </Card>
-
     </Grid >
   );
 };

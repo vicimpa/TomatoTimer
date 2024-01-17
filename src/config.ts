@@ -6,4 +6,4 @@ export const DEFAULT_TIMES = {
   relax: FDate.fromString('20m')
 };
 
-export const DEFAULT_ITERATIONS_COUNT = 3;
+export const DEFAULT_ITERATIONS_COUNT = 4;
