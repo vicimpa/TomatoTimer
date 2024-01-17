@@ -1,4 +1,4 @@
-import { DEFAULT_ITERATIONS_COUNT, DEFAULT_TIMES } from "@/config";
+import { DEFAULT_ITERATIONS_COUNT, DEFAULT_TIMES, DEFAULT_ZOOM } from "@/config";
 import { toEffect } from "@/utils/toEffect";
 import { computed, Signal, signal } from "@preact/signals-react";
 
@@ -30,6 +30,7 @@ export class TomatoTimer extends Runner {
   });
   iters = signal(0);
   needIters = signal(DEFAULT_ITERATIONS_COUNT);
+  zoom = signal(DEFAULT_ZOOM);
 
   computeNext(n = this.iters.value) {
     if (!this.needIters.value)

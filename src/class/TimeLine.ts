@@ -3,12 +3,9 @@ import { round } from "@/utils/math";
 import { toEffect } from "@/utils/toEffect";
 import { computed, signal } from "@preact/signals-react";
 
-import { FDate } from "./FDate";
 import { Renderer } from "./Renderer";
 import { TomatoTimer } from "./TomatoTimer";
 import { Vec2 } from "./Vec2";
-
-const SEGMENT = FDate.fromString('5s');
 
 export class TimeLine extends Renderer {
   count = 30;
@@ -32,7 +29,7 @@ export class TimeLine extends Renderer {
     const size = this.size.value;
     const iters = timer.iters.value;
     const steps: { s: number, e: number; c: string; }[] = [];
-    const draw = SEGMENT;
+    const draw = timer.zoom.value;
 
     var totalRight = 0;
     var totalLeft = 0;
@@ -66,7 +63,7 @@ export class TimeLine extends Renderer {
   render(can: HTMLCanvasElement, ctx: CanvasRenderingContext2D): void {
     const { timer } = this;
     const size = Vec2.fromSize(can).times(.5);
-    const draw = SEGMENT;
+    const draw = timer.zoom.value;
     const time = this.time / draw;
     if (!this.size.value.equal(size))
       this.size.value = size;

@@ -5,10 +5,9 @@ import { ShowTime } from "@/components/ShowTime";
 import { TimerControlls } from "@/components/TimerControlls";
 import { TimerSettings } from "@/components/TimerSettings";
 import { useClass } from "@/hooks/useClass";
-import { Card, CardContent, Grid, Typography } from "@mui/material";
+import { GitHub } from "@mui/icons-material";
+import { Card, CardContent, Grid, Link, Typography } from "@mui/material";
 import { useComputed } from "@preact/signals-react";
-
-import { round } from "./utils/math";
 
 export const App = () => {
   const timer = useClass(TomatoTimer);
@@ -22,20 +21,27 @@ export const App = () => {
     <Typography
       align="center"
       variant="h5"
+      fontFamily="Roboto Mono"
       color={timer.stepObject.value.color}
     >
-      {timer.stepName} ({round((timer.time.value / timer.stepTime.value) * 100)}%)
+      {timer.stepName} ({((timer.time.value / timer.stepTime.value) * 100).toFixed(2)}%)
     </Typography>
   ));
 
   return (
-    <Grid width={'100%'} minWidth={400} justifyContent={'center'} alignContent="center" alignItems="center">
+    <Grid
+      width={'100%'}
+      minWidth={400}
+      justifyContent={'center'}
+      alignContent="center"
+      alignItems="center"
+    >
       <Typography
-        variant="h2"
+        variant="h5"
         align="center"
-        fontWeight={400}
+        fontWeight={200}
       >
-        TomatoTimer
+        T🍅matoTimer
       </Typography>
 
       <Card elevation={0} >
@@ -62,7 +68,10 @@ export const App = () => {
             </CardContent>
           </Card>
         </Grid>
+        <br />
+        <Link target="_blank" href="https://github.com/vicimpa/TomatoTimer"><GitHub /> GitHub Repository</Link>
       </center>
+
     </Grid >
   );
 };
