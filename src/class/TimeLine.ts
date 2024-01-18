@@ -18,8 +18,6 @@ export class TimeLine extends Renderer {
     super();
   }
 
-  update(_time: number, _dtime: number): void { }
-
   steps = computed(() => {
     const { timer } = this;
     const size = this.size.value;
@@ -47,7 +45,8 @@ export class TimeLine extends Renderer {
     return steps;
   });
 
-  render(can: HTMLCanvasElement, ctx: CanvasRenderingContext2D): void {
+  render(): void {
+    const { can, ctx } = this;
     const { timer } = this;
     const size = Vec2.fromSize(can).times(.5);
     const draw = this.zoom.value;

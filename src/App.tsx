@@ -23,11 +23,22 @@ export const App = () => {
   const statusElement = useComputed(() => (
     <Typography
       align="center"
-      variant="h5"
+      variant="body1"
       fontFamily="Roboto Mono"
       color={timer.stepObject.value.color}
     >
-      {timer.stepName} ({((timer.time.value / timer.stepTime.value) * 100).toFixed(2)}%)
+      {timer.stepName}
+    </Typography>
+  ));
+
+  const remainingStatus = useComputed(() => (
+    <Typography
+      align="center"
+      variant="body2"
+      fontFamily="Roboto Mono"
+      color={timer.stepObject.value.color}
+    >
+      {((timer.time.value / timer.stepTime.value) * 100).toFixed(2)}%
     </Typography>
   ));
 
@@ -39,21 +50,24 @@ export const App = () => {
       alignContent="center"
       alignItems="center"
     >
-      <Typography
-        variant="h5"
-        align="center"
-        fontWeight={200}
-      >
-        T🍅matoTimer
-      </Typography>
-
       <Card elevation={0} >
         <CardContent>
+          <Typography
+            variant="h5"
+            align="center"
+            fontWeight={200}
+          >
+            T🍅matoTimer
+          </Typography>
           {timerElement}
-          {statusElement}
 
-          <Canvas height={40} rendering={renderer} />
+          <Card elevation={2} variant="outlined">
+            {statusElement}
 
+            <Canvas height={40} rendering={renderer} />
+
+            {remainingStatus}
+          </Card>
         </CardContent>
       </Card>
 

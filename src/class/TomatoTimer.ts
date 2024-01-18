@@ -25,7 +25,7 @@ export class TomatoTimer extends Runner {
   speed = signal(1);
   total = signal(0);
   step = computed(this.computeStep.bind(this));
-  needIters = signal(DEFAULT_ITERATIONS_COUNT);
+  needIters = signal(DEFAULT_ITERATIONS_COUNT * 2);
 
   computeStep(iters = this.iters.value): keyof TSteps {
     const needIters = this.needIters.value;
@@ -53,7 +53,6 @@ export class TomatoTimer extends Runner {
 
   skip(v?: number) {
     this.time.value = v ?? 0;
-    v ?? this.stop();
     this.iters.value++;
   }
 

@@ -55,7 +55,7 @@ export const TimerSettings: FC<TTimerSettings> = ({ timer, zoom }) => (
     {
       zoom && (
         <SettingsItem
-          label="Timeline"
+          label="Viewport"
           signal={zoom}
           denom={100}
           icon={<Search color="error" />}
@@ -64,14 +64,12 @@ export const TimerSettings: FC<TTimerSettings> = ({ timer, zoom }) => (
       )
     }
     {
-      (
-        <SettingsItem
-          label="Speed"
-          signal={timer.speed}
-          icon={<Speed color="error" />}
-          min={1}
-          max={10000} />
-      )
+      <SettingsItem
+        label="Speed"
+        signal={timer.speed}
+        icon={<Speed color="error" />}
+        min={1}
+        max={100} />
     }
   </>
 );

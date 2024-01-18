@@ -1,11 +1,9 @@
-export abstract class Renderer {
-  abstract update(
-    time: number,
-    dtime: number
-  ): void;
+export class Renderer {
+  can!: HTMLCanvasElement;
+  ctx!: CanvasRenderingContext2D;
+  time!: number;
+  dtime!: number;
 
-  abstract render(
-    canvas: HTMLCanvasElement,
-    context: CanvasRenderingContext2D
-  ): void;
+  update(): void { }
+  render(): void { }
 }

@@ -36,8 +36,12 @@ export const Canvas: FC<TCanvasProps> = ({
   const ref = useRef<HTMLCanvasElement>(null);
   const refRendering = useEvent<TRenderingFunction>((a, b, c, d) => {
     rendering instanceof Renderer ? (
-      rendering.update(c, d),
-      rendering.render(a, b)
+      rendering.can = a,
+      rendering.ctx = b,
+      rendering.time = c,
+      rendering.dtime = d,
+      rendering.update(),
+      rendering.render()
     ) : rendering(a, b, c, d);
   });
 
